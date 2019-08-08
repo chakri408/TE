@@ -23,12 +23,13 @@ parser.add_argument(
     help='Search file recursively in a given directory. Eg: ./grind --d <directory> --r foo')
 args = parser.parse_args()
 
+
 def ListFiles(path):
     if os.path.dirname(path):
         file_list = []
         for t1, t2, t3 in os.walk(path):
             for file in t3:
-                file_list.append(''.join(t1+"/"+file))
+                file_list.append(''.join(t1 + "/" + file))
             for directory in t2:
                 file_list.append(''.join("/" + directory))
 
@@ -36,28 +37,30 @@ def ListFiles(path):
             print(list)
 
 
-def MatchFile(path,match):
+def MatchFile(path, match):
     if os.path.dirname(path):
         file_list = []
         for t1, t2, t3 in os.walk(path, topdown=True):
             if match in t3:
-                file_list.append(''.join(t1+"/"+match))
+                file_list.append(''.join(t1 + "/" + match))
                 t2[:] = []
-                #print(file_list)
+                # print(file_list)
         for list in file_list:
             print(list)
 
-def RecursiveMatch(path,match):
+
+def RecursiveMatch(path, match):
     if os.path.dirname(path):
         file_list = []
-        for t1,t2,t3 in os.walk(path):
+        for t1, t2, t3 in os.walk(path):
             if match in t3:
-                file_list.append(''.join(t1+"/"+match))
+                file_list.append(''.join(t1 + "/" + match))
             if match in t2:
-                file_list.append(''.join(t1+"/"+match))
+                file_list.append(''.join(t1 + "/" + match))
         for list in file_list:
             print(list)
-	
+
+
 def main():
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -65,15 +68,16 @@ def main():
     elif args.match and args.path:
         path = '%s' % args.path
         match = '%s' % args.match
-        MatchFile(path,match)
+        MatchFile(path, match)
     elif args.recursive and args.path:
         path = '%s' % args.path
         match = '%s' % args.recursive
-        RecursiveMatch(path,match)
+        RecursiveMatch(path, match)
     elif args.path:
         path = '%s' % args.path
         ListFiles(path)
     else:
         print('No action defined, please choose one of the action. ./grind -h')
+
 
 main()
